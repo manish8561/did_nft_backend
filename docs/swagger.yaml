@@ -1,0 +1,313 @@
+basePath: /
+definitions:
+  clients.ClientStatusValidator:
+    properties:
+      id:
+        type: integer
+      status:
+        maxLength: 50
+        type: string
+    required:
+    - id
+    - status
+    type: object
+  clients.ClientValidator:
+    properties:
+      email:
+        maxLength: 100
+        type: string
+    required:
+    - email
+    type: object
+  users.AddressesDataValidator:
+    properties:
+      addresses:
+        items: {}
+        type: array
+      username:
+        maxLength: 20
+        type: string
+    required:
+    - addresses
+    - username
+    type: object
+  users.UserDecentrializeValidator:
+    properties:
+      address:
+        type: string
+      data:
+        type: string
+      signature:
+        type: string
+      username:
+        type: string
+    required:
+    - address
+    - data
+    - signature
+    - username
+    type: object
+  users.UserValidator:
+    properties:
+      network:
+        maxLength: 50
+        type: string
+      username:
+        maxLength: 20
+        type: string
+    required:
+    - network
+    - username
+    type: object
+info:
+  contact:
+    email: support@ancrypto.io
+    name: Ancrypto Support
+    url: https://www.ancrypto.io/service-support/
+  description: This is a ancrypto-sdk backend server for user identity.
+  termsOfService: https://www.ancrypto.io/terms-of-service/
+  title: Ancrypto NFT Backend Swagger API
+  version: "1.0"
+paths:
+  /clients/:
+    get:
+      consumes:
+      - application/json
+      description: get client
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get client
+      tags:
+      - client
+    patch:
+      consumes:
+      - application/json
+      description: update status of client in the db
+      parameters:
+      - description: Client status and id
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/clients.ClientStatusValidator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - ApiKeyAuthAdmin: []
+      summary: update status of client
+      tags:
+      - client
+    post:
+      consumes:
+      - application/json
+      description: add client email to db
+      parameters:
+      - description: Client data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/clients.ClientValidator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - ApiKeyAuthAdmin: []
+      summary: add client
+      tags:
+      - client
+  /clients/qrcode/{value}:
+    get:
+      consumes:
+      - application/json
+      description: get QRCode data
+      parameters:
+      - description: Address
+        in: path
+        name: value
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get address QRCode
+      tags:
+      - client
+  /users/:
+    get:
+      consumes:
+      - application/json
+      description: get user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get user
+      tags:
+      - user
+  /users/decentralized:
+    post:
+      consumes:
+      - application/json
+      description: post user data to blockchian and IPFS
+      parameters:
+      - description: User Decenterlize Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/users.UserDecentrializeValidator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: post user data to blockchian and IPFS
+      tags:
+      - user
+    put:
+      consumes:
+      - application/json
+      description: put user data to blockchian and IPFS
+      parameters:
+      - description: User Decenterlize Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/users.UserDecentrializeValidator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: put user data to blockchian and IPFS
+      tags:
+      - user
+  /users/details:
+    post:
+      consumes:
+      - application/json
+      description: get user adress
+      parameters:
+      - description: User data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/users.UserValidator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get user address
+      tags:
+      - user
+  /users/qrcode/{value}:
+    get:
+      consumes:
+      - application/json
+      description: get QRCode data
+      parameters:
+      - description: Address
+        in: path
+        name: value
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get address QRCode
+      tags:
+      - user
+  /users/signature/{username}:
+    get:
+      consumes:
+      - application/json
+      description: get user signature
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: get user signature
+      tags:
+      - user
+  /users/verifying:
+    post:
+      consumes:
+      - application/json
+      description: post addresses for verification
+      parameters:
+      - description: Addresses Data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/users.AddressesDataValidator'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: post addresses for verification
+      tags:
+      - user
+securityDefinitions:
+  ApiKeyAuth:
+    description: Access key for creating identity
+    in: header
+    name: X-ACCESS-KEY
+    type: apiKey
+  ApiKeyAuthAdmin:
+    description: Access key for creating client
+    in: header
+    name: ADMIN-ACCESS-KEY
+    type: apiKey
+swagger: "2.0"

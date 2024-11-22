@@ -1,4 +1,4 @@
-# Ancrypto Identity Backend Server
+# Identity NFT (DID) Backend Server
 
 Backend monolithic server in golang for creating Identity NFT Dynamically and uploaded to the decentralized world.
 
@@ -15,4 +15,4 @@ You need to install gin-swagger globally https://github.com/swaggo/gin-swagger a
 ```
 swag init
 ```
-# did_nft_backend
+
